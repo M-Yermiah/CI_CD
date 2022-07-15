@@ -1,33 +1,36 @@
-node('master') 
+node('built-in')
 {
-  stage('ContinuousDownload') 
-  {
-    git 'https://github.com/selenium-saikrishna/maven.git'
-  } 
-  stage('ContinuousBuild') 
-  {
-    sh 'mvn package'
-  } 
-  stage('ContinuousDeployment') 
-  {
-    sh 'scp /var/lib/jenkins/workspace/Pipeline/webapp/target/webapp.war vagrant@10.10.10.32:/var/lib/tomcat7/webapps/qaenv.war'
-  }
-  stage('ContinuousTesting') 
-  {
-    git 'https://github.com/selenium-saikrishna/TestingOnLinux.git'
-    sh 'java -jar  /var/lib/jenkins/workspace/Pipeline/testing.jar'
-  }
-  stage('ContinuousDelivery') 
-  {
-      input message: 'Waiting for approval from DM', submitter: 'Srinivas'
-    sh 'scp /var/lib/jenkins/workspace/Pipeline/webapp/target/webapp.war vagrant@10.10.10.33:/var/lib/tomcat7/webapps/prodenv.war'
-  }
-  
-  
-  
-  
-  
-  
-  
-  
+stage('Continuous Download')
+{
+git 'https://github.com/M-Yermiah/CI_CD.git'
 }
+stage('Continuous Build')
+{
+sh 'mvn package'
+}
+
+stage('Continous Deployment') 
+{
+   sh 'scp /home/ubuntu/.jenkins/workspace/Project/webapp/target/webapp.war ubuntu@172.31.92.152:/var/lib/tomcat8/webapps/qaenv.war'
+
+}
+
+stage('Continuous Testing')
+{
+echo ' "Testing Passed"'
+}
+
+stage('Continous Delivery') 
+{
+   sh 'scp /home/ubuntu/.jenkins/workspace/Project/webapp/target/webapp.war ubuntu@172.31.93.17:/var/lib/tomcat8/webapps/prodv.war'
+
+}
+
+}
+
+  
+  
+  
+  
+  
+
